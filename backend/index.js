@@ -7,7 +7,7 @@ const helper = require('./utility/helper')
 const Pool = require('pg').Pool
 const pool = new Pool({
   host: 'localhost',
-  user: 'mattmalane',
+  user: 'ben',
   database: 'request_box',
   port: 5432,
 })

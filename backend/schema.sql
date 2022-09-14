@@ -1,9 +1,9 @@
-CREATE DATABASE request_box;
+-- CREATE DATABASE request_box;
 
 CREATE TABLE bins ( 
     id serial UNIQUE NOT NULL,
     path varchar(20) UNIQUE NOT NULL,
-    date_created date,
+    date_created date DEFAULT CURRENT_DATE NOT NULL,
     date_last_updated timestamp,
     PRIMARY KEY (id)
 );
@@ -15,6 +15,7 @@ CREATE TABLE requests (
     PRIMARY KEY (id),
     FOREIGN KEY (bin_id) REFERENCES bins(id) ON DELETE CASCADE
 );
+
 
 -- CREATE TABLE requests (
 --     id serial UNIQUE NOT NULL,
