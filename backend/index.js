@@ -18,22 +18,23 @@ const getBins = async () => {
     const result = await pool.query('SELECT * FROM bins')
     return result.rows
   } catch (error) {
-    console.log("ERROR accessing all bins. Stack:")
-    console.log(error.stack)
+    console.log("ERROR accessing all bins. Stack:");
+    console.log(error.stack);
   }
 }
 
 app.use(bodyParser.json())
 
-app.get('/', async (_, response) => {
+app.get('/api/bins', async (_, response) => {
   try {
     const bins = await getBins()
-    response.status(200).json(bins)
+    const paths = bins.map(bin => bin.path)
+    response.status(200).json(paths)
   } catch(error) {
     console.log("oops");
     response.status(404).end();
   }
-})
+});
 
 // app.get('/api/bin/:id', (req, res) => {
 
