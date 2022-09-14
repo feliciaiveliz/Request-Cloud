@@ -6,4 +6,15 @@ const getAll = async () => {
   return req.data
 }
 
-export default { getAll }
+// const getBin = async (id) => {
+
+// }
+
+const getRequests = async (id) => {
+  const req = await axios.get(baseUrl + "/requests")
+  return req.data
+}
+
+let res = {getAll, getRequests}
+
+export default res

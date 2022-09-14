@@ -21,7 +21,7 @@ const Homepage = () => {
 
   (function checkIfBinIsSelected() {
     if (binNumber !== "") {
-      userClickedOnBin = <Bin/>
+      userClickedOnBin = <Bin binId={binNumber}/>
     } else {
       userClickedOnBin = bins.map(id => {
         return (
