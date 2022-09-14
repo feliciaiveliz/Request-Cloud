@@ -1,0 +1,27 @@
+{
+  "name": "request-box",
+  "version": "1.0.0",
+  "description": "request bin for HTTP requests",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/feliciaiveliz/request-box.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/feliciaiveliz/request-box/issues"
+  },
+  "homepage": "https://github.com/feliciaiveliz/request-box#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "pg": "^8.8.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
