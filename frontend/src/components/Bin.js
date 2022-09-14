@@ -13,7 +13,6 @@ const Bin = ( { binId } ) => {
 
   return (
     <div>
-      <h1>Headers</h1>
       {requests.map((req, idx) => {
         return (
           <Request key={req.method+idx} req={req} />
