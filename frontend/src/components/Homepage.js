@@ -1,8 +1,15 @@
 import { useState, useEffect } from 'react'
 import Bins from '../services/bins.js'
+import { Bin } from './Bin.js'
 
 const Homepage = () => {
   let [bins, setBins] = useState([])
+  let [binNumber, setBinNumber] = useState("")
+
+  let addBinNumber = (event) => {
+    event.preventDefault()
+    setBinNumber(event.target)
+  }
 
   useEffect(() => {
       Bins.getAll().then(bins => {
@@ -10,15 +17,25 @@ const Homepage = () => {
       })
   }, [])
 
-  return (
-    <div>
-      {bins.map(id => {
+  let userClickedOnBin;
+
+  (function checkIfBinIsSelected() {
+    if (binNumber !== "") {
+      userClickedOnBin = <Bin/>
+    } else {
+      userClickedOnBin = bins.map(id => {
         return (
-          <div>
-            <h3>{id}</h3>
+          <div key={id}>
+           <a href="/"><p onClick={event => addBinNumber(event)}>{id}</p></a>
           </div>
         )
-      })}
+      })
+    }
+  })()
+
+  return (
+    <div>
+      {userClickedOnBin}
     </div>
   )
 }
