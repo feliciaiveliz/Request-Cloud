@@ -1,8 +1,9 @@
-import Bins from './services/bins.js'
+import Bins from '../services/bins.js'
 
-const homepage = () => {
-  let data = Bins.getAll()
-  console.log(data)
+const Homepage = () => {
+  // let data = await Bins.getAll()
+  // console.log(data)
+
   return (
     <div>
       <h1>Bins</h1>
@@ -10,4 +11,4 @@ const homepage = () => {
   )
 }
 
-export default homepage
+export default Homepage

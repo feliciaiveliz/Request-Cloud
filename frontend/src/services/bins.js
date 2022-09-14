@@ -1,9 +1,9 @@
 import axios from "axios"
-const baseUrl = 'api/bins'
+const baseUrl = 'http://localhost:3001'
 
 const getAll = async () => {
-  const req = await axios.get(baseUrl)
+  const req = await axios.get(baseUrl + "/bins")
   return req.data
 }
 
-export default getAll
+export default { getAll }
