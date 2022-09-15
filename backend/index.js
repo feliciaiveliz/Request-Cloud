@@ -91,21 +91,27 @@ app.get('/api/bins/:path', async (request, response) => {
   } else {
     response.status(404).send("not a valid bin");
   }
-})
+});
 
-// receive requests at our request bin URL/PATH for GET requests and POST requests
-// these two paths below are pretty much identical besides the route method (app.get/app.post)
-// need to be refactored.
+app.delete("/api/bins/:path", async (req, res) => {
+  const path = req.params.path;
+  const bin = await getBinInfoFromPath(req.params.path);
+  if (!bin) {
+    res.status(404).send("bin not found");
+  }
 
-// TODOS:
-// - create an endpoint to delete a bin + its requests
-// - create an endpoint to delete all requests for a particular bin (for dev/testing)
-// - extract db functions to separate module
+  await Request.deleteMany({ path: path });
+  const requests = await Request.find({ path: path });
 
-// Nice-to-haves
-// - cron job to clean up old requests and bins
-// - retry creating bin if random bin path already exists
-// - set up local mongodb community and replace with atlas
+  await pool.query("DELETE FROM bins WHERE path = $1", [path]);
+  const bins = await pool.query("SELECT * FROM bins WHERE path = $1", [path]);
+
+  if (requests.length === 0 && bins.rows.length === 0) {
+    res.status(204).end();
+  } else {
+    res.status(409).end();
+  }
+});
 
 app.all('/target/:path', async (req, res) => {
   const bin = await getBinInfoFromPath(req.params.path);
