@@ -1,5 +1,6 @@
 import axios from "axios"
-const baseUrl = 'https://646d-47-153-153-72.ngrok.io/api'
+
+const baseUrl = 'https://localhost:3001/api'
 
 const getAll = async () => {
   const req = await axios.get(baseUrl + "/bins")
@@ -16,6 +17,11 @@ const getRequests = async (id) => {
   return req.data
 }
 
-let res = {getAll, getRequests, createBin}
+const deleteBin = async (id) => {
+  const req = await axios.delete(`${baseUrl}/bins/${id}`)
+  return req.data.status
+}
+
+let res = {getAll, getRequests, createBin, deleteBin}
 
 export default res
