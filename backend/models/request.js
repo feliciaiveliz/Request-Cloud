@@ -16,7 +16,7 @@ const requestSchema = new mongoose.Schema({
   method: String,
   path: String,
   headers: Object,
-  body: Object || String,
+  body: Object,
   host_name: String,
   protocol: String,
   query: Object,
