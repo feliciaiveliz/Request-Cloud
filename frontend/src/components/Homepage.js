@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
 import Bins from '../services/bins.js'
 import { Bin } from './Bin.js'
-import Button from 'react-bootstrap/Button'
-import "bootstrap/dist/css/bootstrap.min.css"
+import PageHeader from './PageHeader.js'
 import "../App.css"
 
 const Homepage = () => {
@@ -44,8 +43,10 @@ const Homepage = () => {
 
   return (
     <div>
-      <Button className="custom-btn" onClick={createBinHandler}>Create a new bin</Button>
-      {userClickedOnBin}
+      <PageHeader createBinHandler={createBinHandler}/>
+      <div>
+        {userClickedOnBin}
+      </div>
     </div>
   )
 }
