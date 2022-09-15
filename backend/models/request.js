@@ -16,12 +16,15 @@ const requestSchema = new mongoose.Schema({
   method: String,
   path: String,
   headers: Object,
-  "raw body": String,
+  body: Object || String,
+  host_name: String,
+  protocol: String,
+  query: Object,
 })
 
 requestSchema.set('toJSON', {
   transform: (document, returnedObject) => {
-    returnedObject.id = returnedObject._id.toString()
+    // returnedObject.id = returnedObject._id.toString()
     delete returnedObject._id
     delete returnedObject.__v
   }

@@ -6,10 +6,10 @@ CREATE TABLE bins (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE requests (
-    id serial,
-    bin_id integer NOT NULL,
-    request_id_mongo text,
-    PRIMARY KEY (id),
-    FOREIGN KEY (bin_id) REFERENCES bins(id) ON DELETE CASCADE
-);
+-- CREATE TABLE requests (
+--     id serial,
+--     bin_id integer NOT NULL,
+--     request_id_mongo text,
+--     PRIMARY KEY (id),
+--     FOREIGN KEY (bin_id) REFERENCES bins(id) ON DELETE CASCADE
+-- );

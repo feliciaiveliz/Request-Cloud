@@ -30,6 +30,8 @@ const getBins = async () => {
 }
 
 app.use(bodyParser.json());
+app.use(bodyParser.text())
+app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/api/bins', async (_, response) => {
   try {
@@ -76,34 +78,10 @@ const getBinInfoFromPath = async (path) => {
   }
 }
 
-const getRequestsFromBin = async (id) => {
-  const text = "SELECT request_id_mongo FROM requests WHERE bin_id = $1"
-
-  try {
-    const result = await pool.query(text, [id]);
-    return result.rows.map(object => object.request_id_mongo)
-  } catch (error) {
-    console.log("ERROR retrieving requests. Stack:");
-    console.log(error.stack);
-  }
-}
-
-// connect mongodb to our app
-// make a query into mongo collection
-  // get all requests that match the request_mongo_id
-  // return all the requests
-
 app.get('/api/bins/:path', async (request, response) => {
   const path = request.params.path;
-
-  // try {
-  //   const bin = await getBinInfoFromPath(path);
-  //   const requests = await getRequestsFromBin(bin.id);
-  //   response.status(200).json([bin, requests]);
-  // } catch (error) {
-  //   response.status(404).end();
-  // }
-  const bin = await getBinInfoFromPath(path); // 106 - 108 is working. feel free to change though.
+  const bin = await getBinInfoFromPath(path);
+  delete bin.id
   const requests = await Request.find({ path: path })
   response.status(200).json([bin, requests]);
 })
@@ -120,22 +98,14 @@ app.get('/target/:path', async (req, res) => {
     body: req.body,
     host_name: req.hostname,
     protocol: req.protocol,
+    query: req.query,
   })
 
-  const savedRequest = await request.save() // sending request object async
-  const mongoID = savedRequest.id // saving mongo db ID
-  // need to create a record in our request table in postgres
-  const path = req.params.path // this is the path for the existing bin
-  const binInfo = await getBinInfoFromPath(path) // retrieve bin info from path
-  const binId = binInfo.id // retrieve id from bin info
-  // // insert into request table; bin_id => binId, request_mongo_id => mongoID
-  const text = "INSERT INTO requests (bin_id, request_id_mongo) VALUES ($1, $2)";
-
   try {
-    await pool.query(text, [binId, mongoID]);
+    await request.save()
     res.status(200).send("message received") // we can change this, wasnt sure what to send back
   } catch (error) {
-    console.log("ERROR inserting request into postgresql requests table. Stack:");
+    console.log("ERROR inserting request data into MongoDB. Stack:");
     console.log(error.stack);
   }
 })
@@ -148,22 +118,14 @@ app.post('/target/:path', async (req, res) => {
     body: req.body,
     host_name: req.hostname,
     protocol: req.protocol,
+    query: req.query,
   })
 
-  const savedRequest = await request.save() // sending request object async
-  const mongoID = savedRequest.id // saving mongo db ID
-  // need to create a record in our request table in postgres
-  const path = req.params.path // this is the path for the existing bin
-  const binInfo = await getBinInfoFromPath(path) // retrieve bin info from path
-  const binId = binInfo.id // retrieve id from bin info
-  // // insert into request table; bin_id => binId, request_mongo_id => mongoID
-  const text = "INSERT INTO requests (bin_id, request_id_mongo) VALUES ($1, $2)";
-
   try {
-    await pool.query(text, [binId, mongoID]);
+    await request.save()
     res.status(200).send("message received") // we can change this, wasnt sure what to send back
   } catch (error) {
-    console.log("ERROR inserting request into postgresql requests table. Stack:");
+    console.log("ERROR inserting request data into MongoDB. Stack:");
     console.log(error.stack);
   }
 })
