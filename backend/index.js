@@ -8,14 +8,14 @@ const helper = require('./utility/helper');
 const { response } = require('express');
 const Pool = require('pg').Pool
 const password = process.env.POSTGRES_PASSWORD
+const Request = require('./models/request')
 
 app.use(cors());
 
 const pool = new Pool({
   host: 'localhost',
-  user: 'ben',
+  user: 'mattmalane',
   database: 'request_box',
-  password: password,
   port: 5432,
 });
 
@@ -96,12 +96,75 @@ const getRequestsFromBin = async (id) => {
 app.get('/api/bins/:path', async (request, response) => {
   const path = request.params.path;
 
+  // try {
+  //   const bin = await getBinInfoFromPath(path);
+  //   const requests = await getRequestsFromBin(bin.id);
+  //   response.status(200).json([bin, requests]);
+  // } catch (error) {
+  //   response.status(404).end();
+  // }
+  const bin = await getBinInfoFromPath(path); // 106 - 108 is working. feel free to change though.
+  const requests = await Request.find({ path: '/' + path })
+  response.status(200).json([bin, requests]);
+})
+
+// receive requests at our request bin URL/PATH for GET requests and POST requests
+// these two paths below are pretty much identical besides the route method (app.get/app.post)
+// need to be refactored.
+
+app.get('/:path', async (req, res) => {
+  const request = new Request({ // taking incoming request and parsing into object to store in MongoDB.
+    method: req.method,
+    path: req.path,
+    headers: req.headers,
+    body: req.body,
+    host_name: req.hostname,
+    protocol: req.protocol,
+  })
+
+  const savedRequest = await request.save() // sending request object async
+  const mongoID = savedRequest.id // saving mongo db ID
+  // need to create a record in our request table in postgres
+  const path = req.params.path // this is the path for the existing bin
+  const binInfo = await getBinInfoFromPath(path) // retrieve bin info from path
+  const binId = binInfo.id // retrieve id from bin info
+  // // insert into request table; bin_id => binId, request_mongo_id => mongoID
+  const text = "INSERT INTO requests (bin_id, request_id_mongo) VALUES ($1, $2)";
+
   try {
-    const bin = await getBinInfoFromPath(path);
-    const requests = await getRequestsFromBin(bin.id);
-    response.status(200).json([bin, requests]);
+    await pool.query(text, [binId, mongoID]);
+    res.status(200).send("message received") // we can change this, wasnt sure what to send back
   } catch (error) {
-    response.status(404).end();
+    console.log("ERROR inserting request into postgresql requests table. Stack:");
+    console.log(error.stack);
+  }
+})
+
+app.post('/:path', async (req, res) => {
+  const request = new Request({ // taking incoming request and parsing into object to store in MongoDB.
+    method: req.method,
+    path: req.path,
+    headers: req.headers,
+    body: req.body,
+    host_name: req.hostname,
+    protocol: req.protocol,
+  })
+
+  const savedRequest = await request.save() // sending request object async
+  const mongoID = savedRequest.id // saving mongo db ID
+  // need to create a record in our request table in postgres
+  const path = req.params.path // this is the path for the existing bin
+  const binInfo = await getBinInfoFromPath(path) // retrieve bin info from path
+  const binId = binInfo.id // retrieve id from bin info
+  // // insert into request table; bin_id => binId, request_mongo_id => mongoID
+  const text = "INSERT INTO requests (bin_id, request_id_mongo) VALUES ($1, $2)";
+
+  try {
+    await pool.query(text, [binId, mongoID]);
+    res.status(200).send("message received") // we can change this, wasnt sure what to send back
+  } catch (error) {
+    console.log("ERROR inserting request into postgresql requests table. Stack:");
+    console.log(error.stack);
   }
 })
 
