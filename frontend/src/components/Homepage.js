@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import Bins from '../services/bins.js'
 import { Bin } from './Bin.js'
+import Button from 'react-bootstrap/Button'
+import "bootstrap/dist/css/bootstrap.min.css"
+import "../App.css"
 
 const Homepage = () => {
   let [bins, setBins] = useState([])
@@ -41,7 +44,7 @@ const Homepage = () => {
 
   return (
     <div>
-      <button onClick={createBinHandler}>Create a new bin</button>
+      <Button className="custom-btn" onClick={createBinHandler}>Create a new bin</Button>
       {userClickedOnBin}
     </div>
   )

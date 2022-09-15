@@ -1,5 +1,7 @@
 .App {
-  text-align: center;
+  display: block;
+  text-align: left;
+  padding-left: 15px;
 }
 
 .App-logo {
@@ -35,4 +37,8 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.custom-btn {
+  margin-top: 15px;
 }
