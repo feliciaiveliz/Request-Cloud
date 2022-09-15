@@ -14,7 +14,7 @@ app.use(cors());
 
 const pool = new Pool({
   host: 'localhost',
-  user: 'mattmalane',
+  user: 'ben',
   database: 'request_box',
   port: 5432,
 });
@@ -75,20 +75,32 @@ const getBinInfoFromPath = async (path) => {
   } catch (error) {
     console.log("ERROR retrieving bin. Stack:");
     console.log(error.stack);
+    return false
   }
 }
 
 app.get('/api/bins/:path', async (request, response) => {
   const path = request.params.path;
   const bin = await getBinInfoFromPath(path);
-  delete bin.id
-  const requests = await Request.find({ path: path })
-  response.status(200).json([bin, requests]);
+  if (bin) {
+    delete bin.id
+    const requests = await Request.find({ path: path })
+    response.status(200).json([bin, requests]);
+  } else {
+    response.status(404).send("not a valid bin");
+  }
 })
 
 // receive requests at our request bin URL/PATH for GET requests and POST requests
 // these two paths below are pretty much identical besides the route method (app.get/app.post)
 // need to be refactored.
+
+// TODOS:
+// - validate paths that come in to /target/:path
+// - limit # of requests we return from /api/bins/:path
+// - accept all kinds of methods app.all for /target/:path
+// - create an endpoint to delete a bin + its requests
+// - create an endpoint to delete all requests for a particular bin (for dev/testing)
 
 app.get('/target/:path', async (req, res) => {
   const request = new Request({ // taking incoming request and parsing into object to store in MongoDB.
@@ -99,7 +111,7 @@ app.get('/target/:path', async (req, res) => {
     host_name: req.hostname,
     protocol: req.protocol,
     query: req.query,
-  })
+  });
 
   try {
     await request.save()
