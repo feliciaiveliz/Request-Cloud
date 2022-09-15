@@ -1,5 +1,3 @@
--- CREATE DATABASE request_box;
-
 CREATE TABLE bins ( 
     id serial UNIQUE NOT NULL,
     path varchar(20) UNIQUE NOT NULL,

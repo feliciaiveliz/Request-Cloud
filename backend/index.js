@@ -1,5 +1,6 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
@@ -8,9 +9,11 @@ const { response } = require('express');
 const Pool = require('pg').Pool
 const password = process.env.POSTGRES_PASSWORD
 
+app.use(cors());
+
 const pool = new Pool({
   host: 'localhost',
-  user: 'softwarebirb',
+  user: 'ben',
   database: 'request_box',
   password: password,
   port: 5432,
