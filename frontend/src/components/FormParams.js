@@ -2,7 +2,7 @@ const FormParams = ({ req }) => {
   // need to add functionality to show parameters
   return (
     <div>
-      <h1>Form/Post Parameters</h1>
+      <b><h4>Form/Post Parameters</h4></b>
     </div>
   )
 }

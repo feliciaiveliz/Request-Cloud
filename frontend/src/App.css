@@ -39,13 +39,13 @@
 }
 
 .custom-btn {
-  margin-top: 15px;
+  margin-top: 10px;
   margin-bottom: 15px;
   background: white;
 }
 
 .headingBox {
-  background: linear-gradient(rgb(0, 128, 255), pink);;
+  background: linear-gradient(rgb(0, 128, 255), pink);
   text-align: center;
   color: white;
 }
@@ -55,3 +55,50 @@
   padding-top: 10px;
   justify-content: center;
 }
+
+.cloud {
+  display: inline-flex;
+  align-items: left;
+  font-size: 40px;
+  width: 98%;
+}
+
+.binsBox {
+  text-align: center;
+  margin-top: 15px;
+  margin-left: 15px;
+}
+
+.bins {
+  display: inline-flex;
+  text-decoration: none;
+}
+
+.miniCloud {
+  margin-right: 10px;
+}
+
+.pathLinks {
+  text-decoration: none;
+}
+
+.trashCan {
+  margin-right: 5px;
+}
+
+.cloudUrl {
+  display: inline-flex;
+  width: 27%;
+}
+
+.binsBox h2 {
+  display: inline-flex;
+  color: white;
+  background: linear-gradient(rgb(0, 128, 255), pink);
+}
+
+.binInfo {
+  display: block;
+}
+
+

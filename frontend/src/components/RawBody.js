@@ -1,8 +1,8 @@
 const RawBody = ({ body }) => {
   return (
     <div>
-      <h1>Raw Body</h1>
-      <p>{body}</p>
+      <b><h4>Raw Body</h4></b>
+      <p>{JSON.stringify(body)}</p>
     </div>
   )
 }

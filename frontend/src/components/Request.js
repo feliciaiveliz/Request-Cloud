@@ -1,15 +1,14 @@
-import RequestInfo from "./RequestInfo"
 import FormParams from "./FormParams"
 import Headers from "./Headers"
 import RawBody from "./RawBody"
 
 const Request = ({ req }) => {
   return (
-    <div>
-      <RequestInfo req={req}/>
+    <div className="requestBox">
       <FormParams req={req}/>
       <Headers info={req.headers}/>
-      <RawBody body={req["raw body"]}/>
+      <RawBody body={req.body}/>
+      <hr></hr>
     </div>
   )
 }

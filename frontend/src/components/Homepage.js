@@ -3,6 +3,7 @@ import Bins from '../services/bins.js'
 import { Bin } from './Bin.js'
 import PageHeader from './PageHeader.js'
 import "../App.css"
+import BinsBox from './BinsBox.js'
 
 const Homepage = () => {
   let [bins, setBins] = useState([])
@@ -10,7 +11,7 @@ const Homepage = () => {
 
   let addBinNumber = (event) => {
     event.preventDefault()
-    setBinNumber(event.target)
+    setBinNumber(event.target.textContent)
   }
 
   useEffect(() => {
@@ -25,25 +26,18 @@ const Homepage = () => {
     if (binNumber !== "") {
       userClickedOnBin = <Bin binId={binNumber}/>
     } else {
-      userClickedOnBin = bins.map(id => {
-        return (
-          <div key={id}>
-           <a href="/"><p onClick={event => addBinNumber(event)}>{id}</p></a>
-          </div>
-        )
-      })
+      userClickedOnBin = (<div className='binsBox'><h2>Your clouds</h2><div className='urlBox'><BinsBox bins={bins} addBinNumber={addBinNumber}/></div></div>)
     }
   })()
 
   const createBinHandler = async () => {
     const path = await Bins.createBin()
     setBinNumber(path)
-    console.log(path)
   }
 
   return (
     <div>
-      <PageHeader createBinHandler={createBinHandler}/>
+      <PageHeader createBinHandler={createBinHandler} setBinNumber={setBinNumber}/>
       <div>
         {userClickedOnBin}
       </div>
