@@ -55,6 +55,7 @@ const createBin = async (path) => {
   }
 }
 
+// Create a new bin
 app.post('/api/bins', async (_, response) => {
   const path = helper.random(20);
 
@@ -96,13 +97,21 @@ app.get('/api/bins/:path', async (request, response) => {
 // need to be refactored.
 
 // TODOS:
-// - validate paths that come in to /target/:path
 // - limit # of requests we return from /api/bins/:path
-// - accept all kinds of methods app.all for /target/:path
 // - create an endpoint to delete a bin + its requests
 // - create an endpoint to delete all requests for a particular bin (for dev/testing)
+// - extract db functions to separate module
 
-app.get('/target/:path', async (req, res) => {
+// Nice-to-haves
+// - cron job to clean up old requests and bins
+// - retry creating bin if random bin path already exists
+
+app.all('/target/:path', async (req, res) => {
+  const bin = await getBinInfoFromPath(req.params.path);
+  if (!bin) {
+    res.status(404).send("bin not found");
+  }
+
   const request = new Request({ // taking incoming request and parsing into object to store in MongoDB.
     method: req.method,
     path: req.params.path,
@@ -115,32 +124,12 @@ app.get('/target/:path', async (req, res) => {
 
   try {
     await request.save()
-    res.status(200).send("message received") // we can change this, wasnt sure what to send back
+    res.status(200).send("message received"); // we can change this, wasnt sure what to send back
   } catch (error) {
     console.log("ERROR inserting request data into MongoDB. Stack:");
     console.log(error.stack);
   }
-})
-
-app.post('/target/:path', async (req, res) => {
-  const request = new Request({ // taking incoming request and parsing into object to store in MongoDB.
-    method: req.method,
-    path: req.params.path,
-    headers: req.headers,
-    body: req.body,
-    host_name: req.hostname,
-    protocol: req.protocol,
-    query: req.query,
-  })
-
-  try {
-    await request.save()
-    res.status(200).send("message received") // we can change this, wasnt sure what to send back
-  } catch (error) {
-    console.log("ERROR inserting request data into MongoDB. Stack:");
-    console.log(error.stack);
-  }
-})
+});
 
 app.listen(port, () => {
   console.log(`start of our Request Box backend on port ${port}`)
