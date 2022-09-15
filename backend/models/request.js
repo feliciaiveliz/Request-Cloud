@@ -20,6 +20,7 @@ const requestSchema = new mongoose.Schema({
   host_name: String,
   protocol: String,
   query: Object,
+  created: Date,
 })
 
 requestSchema.set('toJSON', {

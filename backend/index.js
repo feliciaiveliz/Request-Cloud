@@ -9,6 +9,7 @@ const { response } = require('express');
 const Pool = require('pg').Pool
 const password = process.env.POSTGRES_PASSWORD
 const Request = require('./models/request')
+const REQUEST_LIMIT_PER_BIN = 10;
 
 app.use(cors());
 
@@ -97,7 +98,6 @@ app.get('/api/bins/:path', async (request, response) => {
 // need to be refactored.
 
 // TODOS:
-// - limit # of requests we return from /api/bins/:path
 // - create an endpoint to delete a bin + its requests
 // - create an endpoint to delete all requests for a particular bin (for dev/testing)
 // - extract db functions to separate module
@@ -105,6 +105,7 @@ app.get('/api/bins/:path', async (request, response) => {
 // Nice-to-haves
 // - cron job to clean up old requests and bins
 // - retry creating bin if random bin path already exists
+// - set up local mongodb community and replace with atlas
 
 app.all('/target/:path', async (req, res) => {
   const bin = await getBinInfoFromPath(req.params.path);
@@ -120,7 +121,14 @@ app.all('/target/:path', async (req, res) => {
     host_name: req.hostname,
     protocol: req.protocol,
     query: req.query,
+    created: Date.now(),
   });
+
+  const requests = await Request.find({ path: req.params.path })
+  requests.sort();
+  if (requests.length >= REQUEST_LIMIT_PER_BIN) {
+    await Request.deleteOne({ _id: requests[0]._id.toString() })
+  }
 
   try {
     await request.save()
