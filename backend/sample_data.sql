@@ -1,6 +1,6 @@
 -- SOME SAMPLE INSERTS YOU CAN USE TO TEST:
 -- Insert into bins
-INSERT INTO bins (path) VALUES ('aaaaaaaaaaaaaa'), ('bbbbbbbbbbbbb');
+INSERT INTO bins (path) VALUES ('aaaaaaaaaaaaaa'), ('bbbbbbbbbbbbb'), ('cccccccccccccc'), ('dddddddddddd');
 
 
 -- Insert into requests

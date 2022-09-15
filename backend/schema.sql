@@ -15,18 +15,3 @@ CREATE TABLE requests (
     PRIMARY KEY (id),
     FOREIGN KEY (bin_id) REFERENCES bins(id) ON DELETE CASCADE
 );
-
-
--- CREATE TABLE requests (
---     id serial UNIQUE NOT NULL,
---     bin_id 
--- );
-
--- 1 path (fdkfeiruoh)
--- 2 path (euvdueoins)
--- 3 path (dfkhdjklji)
-
--- request-box.net/fdkfeiruoh
--- request-box.net/euvdueoins
--- request-box.net/dfkhdjklji
-
