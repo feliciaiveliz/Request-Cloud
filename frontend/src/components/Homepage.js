@@ -33,8 +33,15 @@ const Homepage = () => {
     }
   })()
 
+  const createBinHandler = async () => {
+    const path = await Bins.createBin()
+    setBinNumber(path)
+    console.log(path)
+  }
+
   return (
     <div>
+      <button onClick={createBinHandler}>Create a new bin</button>
       {userClickedOnBin}
     </div>
   )
