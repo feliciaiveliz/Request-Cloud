@@ -104,7 +104,7 @@ app.get('/api/bins/:path', async (request, response) => {
   //   response.status(404).end();
   // }
   const bin = await getBinInfoFromPath(path); // 106 - 108 is working. feel free to change though.
-  const requests = await Request.find({ path: '/' + path })
+  const requests = await Request.find({ path: path })
   response.status(200).json([bin, requests]);
 })
 
@@ -112,10 +112,10 @@ app.get('/api/bins/:path', async (request, response) => {
 // these two paths below are pretty much identical besides the route method (app.get/app.post)
 // need to be refactored.
 
-app.get('/:path', async (req, res) => {
+app.get('/target/:path', async (req, res) => {
   const request = new Request({ // taking incoming request and parsing into object to store in MongoDB.
     method: req.method,
-    path: req.path,
+    path: req.params.path,
     headers: req.headers,
     body: req.body,
     host_name: req.hostname,
@@ -140,10 +140,10 @@ app.get('/:path', async (req, res) => {
   }
 })
 
-app.post('/:path', async (req, res) => {
+app.post('/target/:path', async (req, res) => {
   const request = new Request({ // taking incoming request and parsing into object to store in MongoDB.
     method: req.method,
-    path: req.path,
+    path: req.params.path,
     headers: req.headers,
     body: req.body,
     host_name: req.hostname,
