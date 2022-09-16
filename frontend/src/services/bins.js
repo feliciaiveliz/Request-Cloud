@@ -1,6 +1,6 @@
 import axios from "axios"
 
-const baseUrl = 'https://localhost:3001/api'
+const baseUrl = 'https://api.mattmalane.dev/api'
 
 const getAll = async () => {
   const req = await axios.get(baseUrl + "/bins")

@@ -3,7 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const app = express();
-const port = 3000;
+const port = 3001;
 const helper = require('./utility/helper');
 const { response } = require('express');
 const Pool = require('pg').Pool
@@ -15,8 +15,9 @@ app.use(cors());
 
 const pool = new Pool({
   host: 'localhost',
-  user: 'ben',
+  user: 'matt',
   database: 'request_box',
+  password: password,
   port: 5432,
 });
 
