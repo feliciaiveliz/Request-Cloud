@@ -26,7 +26,7 @@ const Homepage = () => {
     if (binNumber !== "") {
       userClickedOnBin = <Bin binId={binNumber}/>
     } else {
-      userClickedOnBin = (<div className='binsBox'><h2>Your clouds</h2><div className='urlBox'><BinsBox bins={bins} addBinNumber={addBinNumber}/></div></div>)
+      userClickedOnBin = (<div className='binsBox'><h2>Your clouds</h2><div className='urlBox'><BinsBox bins={bins} addBinNumber={addBinNumber} handler={setBins}/></div></div>)
     }
   })()
 

@@ -1,6 +1,7 @@
 .App {
-  display: block;
-  font-family: Arial, Helvetica, sans-serif;
+  display: display;
+  align-self: center;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 .App-logo {
@@ -41,11 +42,15 @@
 .custom-btn {
   margin-top: 10px;
   margin-bottom: 15px;
-  background: white;
+  color: white;
+  background-color: rgba(72, 128, 192, 0.616);
+  border-color: rgba(72, 128, 192, 0.616);
+  border-radius: 10px;
+  font-size: 23px;
 }
 
 .headingBox {
-  background: linear-gradient(rgb(0, 128, 255), pink);
+  background: linear-gradient(rgb(97, 157, 214), pink);
   text-align: center;
   color: white;
 }
@@ -65,8 +70,12 @@
 
 .binsBox {
   text-align: center;
-  margin-top: 15px;
-  margin-left: 15px;
+  background: rgba(72, 128, 192, 0.616);
+  box-shadow: 1px .5px 1px 1px gray;
+  width: 85%;
+  margin: auto;
+  margin-top: 10px;
+  border-radius: 5px;
 }
 
 .bins {
@@ -83,6 +92,7 @@
 }
 
 .trashCan {
+  color: white;
   margin-right: 5px;
 }
 
@@ -91,14 +101,15 @@
   width: 27%;
 }
 
+.cloudUrl p {
+  color: white;
+}
+
 .binsBox h2 {
   display: inline-flex;
   color: white;
-  background: linear-gradient(rgb(0, 128, 255), pink);
 }
 
 .binInfo {
   display: block;
 }
-
-
