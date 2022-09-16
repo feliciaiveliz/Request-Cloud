@@ -1,4 +1,5 @@
 const BinInfo = ({ info }) => {
+  console.log(info)
   return (
     <div className="binInfo">
       <p>HTTP</p>
